@@ -7,6 +7,7 @@ export default function Register() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [message, setMessage] = useState("")
 
     async function register(e) {
         e.preventDefault()
@@ -24,7 +25,7 @@ export default function Register() {
                 setPassword("")
                 navigate("/login")
             } else {
-                data.message
+                setMessage(data.message)
             }
         } catch (error) {
             alert("Szerverhiba!")
@@ -34,6 +35,7 @@ export default function Register() {
     return (
         <>
             <h1>Regisztráció</h1>
+            {message && <p className="text-danger">{message}</p>}
             <Form onSubmit={register}>
             <Form.Group className="mb-3" controlId="formName">
                 <Form.Label>Név</Form.Label>
@@ -47,7 +49,7 @@ export default function Register() {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Jelszó</Form.Label>
-                <Form.Control type="password" placeholder="Jelszó" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                <Form.Control type="password" placeholder="Jelszó" value={password} minLength={8} onChange={(e) => setPassword(e.target.value)} required/>
             </Form.Group>
             <Button variant="primary" type="submit">
                 Regisztráció

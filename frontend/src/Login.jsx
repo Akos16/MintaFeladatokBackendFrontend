@@ -7,6 +7,7 @@ export default function Login({setUserLogin})
 {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [message, setMessage] = useState("")
 
     const navigate = useNavigate()
 
@@ -26,8 +27,12 @@ export default function Login({setUserLogin})
                 localStorage.setItem("user", JSON.stringify(data.user))
 
                 setUserLogin(data.user)
-                navigate("/profile")
-            }else{data.message}
+                if(data.user.role === 1){
+                    navigate("/adminHome")
+                }else{
+                    navigate("/profile")
+                }
+            }else{setMessage(data.message)}
         } catch (error) {
             alert("Szerverhiba!")
         }
@@ -35,6 +40,7 @@ export default function Login({setUserLogin})
     return (
         <>
             <h1>Bejelentkezés</h1>
+            {message && <p className="text-danger">{message}</p>}
             <Form onSubmit={login}>
 
             <Form.Group className="mb-3" controlId="formBasicEmail">
